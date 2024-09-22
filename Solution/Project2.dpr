@@ -2,6 +2,9 @@ program Project2;
 
 {$APPTYPE CONSOLE}
 
+uses
+  SysUtils;
+
 type
   TFileInf = record
     Name: String[100];
@@ -18,7 +21,7 @@ type
 
   TMyFile = file of TFileInf;
 
-procedure AddToList(pHead: TList; pEl: TFileInf);
+procedure AddToList(var pHead: TList; pEl: TFileInf);
 var
   p, q, k: TList;
 begin
@@ -67,9 +70,9 @@ end;
 
 procedure WriteToTextfile(var TextFile: Textfile; pEl: TFileInf);
 begin
-  Writeln(TextFile, pEl.Name);
-  Writeln(TextFile, pEl.Size);
-  Writeln(TextFile, pEl.CreationDate);
+  Write(TextFile, pEl.Name + ' | ');
+  Write(TextFile, (IntToStr(pEl.Size) + ' | '));
+  Write(TextFile, (IntToStr(pEl.CreationDate) + ' | '));
   Writeln(TextFile);
 end;
 
@@ -86,14 +89,13 @@ var
   FType: TMyFile;
   MyList: TList;
   FTxt: TextFile;
-
 begin
-  AssignFile(FType, 'sdaasds');
+  AssignFile(FType, 'TestTypeFile');
   Reset(FType);
 
   ReadTypeFile(MyList, FType);
 
-  AssignFile(FTxt, 'adsdasdasdasd');
+  AssignFile(FTxt, 'ReportFile.txt');
   Rewrite(FTxt);
 
   PrintListToTexFile(MyList, FTxt);
